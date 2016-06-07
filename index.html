@@ -1,0 +1,169 @@
+<html>
+<head>
+	<script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+	 <script src="https://cdn.jsdelivr.net/vue/latest/vue.js"></script>
+	 <meta charset="utf-8">
+	 <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<!-- Latest compiled and minified JavaScript -->
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.pack.js"></script>
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="main.css">
+	<link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
+
+		<title>椰林抬槓 Coconut-Grove-Chat</title>
+
+</head>
+<body id='app'>
+	<!-- <button onclick="signUp(email,password)">註冊</button><br> -->
+	<!-- <button onclick="signIn(email,password)">登入</button><br> -->
+	
+	 <div class="container">
+			<div class="row main">
+				<div class="panel-heading">
+	               <div class="panel-title text-center">
+	               	<!-- <h2 class="title">椰林抬槓</h2> -->
+	               		<!-- <hr /> -->
+	               		<h1 class="title">CoconutGroveChat</h1>
+	               		<hr />
+	               		
+	               	</div>
+	            </div> 
+				<div class="main-login main-center">
+					<form class="form-horizontal" method="post" action="#">
+						
+						<div class="form-group">
+							<label for="name" class="cols-sm-2 control-label">姓名</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+									<input type="text" class="form-control" name="name" id="name"  placeholder="請輸入本名，僅供確認"/>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="email" class="cols-sm-2 control-label">台大信箱</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+									<input type="text" class="form-control" name="email" id="email"  placeholder="必須為台大學生才可註冊"/>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="grade" class="cols-sm-2 control-label">系級</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-users fa" aria-hidden="true"></i></span>
+									<input type="text" class="form-control" name="grade" id="grade"  placeholder="EX:生機R03"/>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="password" class="cols-sm-2 control-label">密碼</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+									<input type="password" class="form-control" name="password" id="password"  placeholder="請輸入密碼"/>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="confirm" class="cols-sm-2 control-label">確認密碼</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+									<input type="password" class="form-control" name="confirm" id="confirm"  placeholder="確認你的密碼"/>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group ">
+							<button type="button" class="btn btn-primary btn-lg btn-block login-button" onclick="signUp(email,password)">註冊</button>
+						
+						</div>
+
+						<div class="login-register">
+				            <a onclick="signIn(email,password)">登入</a>
+				         </div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+
+
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+	<script>
+
+
+	  // Initialize Firebase
+	  var config = {
+	    apiKey: "AIzaSyCy9jEcA2jSwclfmIEMUr9KXFxCeVRieQs",
+	    authDomain: "coconut-grove-chat.firebaseapp.com",
+	    databaseURL: "https://coconut-grove-chat.firebaseio.com",
+	    storageBucket: "coconut-grove-chat.appspot.com",
+	  };
+	  firebase.initializeApp(config);
+
+	
+
+	function signUp(email,password){
+
+		var name = document.getElementById('name').value;
+	  	var email = document.getElementById('email').value;
+	 	var grade = document.getElementById('grade').value;
+	 	var password = document.getElementById('password').value;
+	  	var confirm = document.getElementById('confirm').value;		
+	  	if (email.slice(-11) == "@ntu.edu.tw"){
+			firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+			  // Handle Errors here.
+			  console.log("yes");
+			  var errorCode = error.code;
+			  var errorMessage = error.message;
+			  // ...
+			});
+		}
+		else{alert("email請輸入台大信箱");}
+	}
+
+	function signIn(email,password){
+		firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+			  // Handle Errors here.
+			   console.log("login");
+			  var errorCode = error.code;
+			  var errorMessage = error.message;
+			  // ...
+			});
+	}
+
+		
+
+		firebase.auth().onAuthStateChanged(function(user) { 
+			console.log(user.uid);
+			if (user){
+				  if (user.emailVerified) {
+				    console.log('Email is verified');
+				    window.location.replace('http://localhost:8888/main.html');
+				  }
+				  else {
+				  	
+				    console.log('email尚未驗證，請至信箱收驗證信');
+				     user.sendEmailVerification(); 
+				  }
+			}else{
+				console.log("尚未登入")
+			}
+		});
+
+
+		
+
+	</script>
+</body>
+</html>
